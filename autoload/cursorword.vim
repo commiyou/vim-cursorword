@@ -23,6 +23,7 @@ let s:alphabets = '^[\x00-\x7f\xb5\xc0-\xd6\xd8-\xf6\xf8-\u01bf\u01c4-\u02af\u03
 function! cursorword#matchadd(...) abort
   let enable = get(b:, 'cursorword', get(g:, 'cursorword', 1)) && !has('vim_starting')
   if !enable && !get(w:, 'cursorword_match') | return | endif
+  if get(g:, 'cursorword_fsize') < getfsize(@%) | return | endif
   let i = (a:0 ? a:1 : mode() ==# 'i' || mode() ==# 'R') && col('.') > 1
   let line = getline('.')
   let linenr = line('.')
@@ -45,6 +46,7 @@ let s:delay = get(g:, 'cursorword_delay', 50)
 if has('timers') && s:delay > 0
   let s:timer = 0
   function! cursorword#cursormoved() abort
+    if get(g:, 'cursorword_fsize') < getfsize(@%) | return | endif
     if get(w:, 'cursorword_match')
       silent! call matchdelete(w:cursorword_id0)
       silent! call matchdelete(w:cursorword_id1)

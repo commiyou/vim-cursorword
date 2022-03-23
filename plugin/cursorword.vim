@@ -10,6 +10,10 @@ if exists('g:loaded_cursorword') || v:version < 703
 endif
 let g:loaded_cursorword = 1
 
+if !exists('g:cursorword_fsize')
+  let g:cursorword_fsize = 1024
+endif
+
 let s:save_cpo = &cpo
 set cpo&vim
 
